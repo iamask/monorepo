@@ -2,30 +2,40 @@ name: Deploy Worker
 
 on:
   push:
+    branches: [ "main" ]
   pull_request:
   repository_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
-  dummy:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Dummy Step
-        run: echo "This is a dummy job"
-
   deploy:
+    name: 'Deploy Worker'
     runs-on: ubuntu-latest
-    timeout-minutes: 60
-    needs: dummy
+    # environment: production
+
+    # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
+    defaults:
+      run:
+        shell: bash
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+      # Checkout the repository to the GitHub Actions runner
+      - name: Checkout
+        uses: actions/checkout@v3
 
+      # Install Wrangler CLI
+      - name: Install Wrangler
+        run: npm install -g @cloudflare/wrangler
+
+      # Build & Deploy Gentle Rain Worker
       - name: Build & Deploy Gentle Rain Worker
         run: |
           cd gentle-rain-da08
           wrangler publish --api-token ${{ secrets.CF_API_TOKEN }} --env production
-          
+
+      # Build & Deploy Shrill Poetry Worker
       - name: Build & Deploy Shrill Poetry Worker
         run: |
           cd shrill-poetry-b0cc
