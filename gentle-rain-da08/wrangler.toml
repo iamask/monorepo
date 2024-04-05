@@ -1,5 +1,5 @@
 name = "gentle-rain-da08"
-main = "src/index.js"
+main = "./src/index.js"
 compatibility_date = "2024-04-04"
 compatibility_flags = ["nodejs_compat"]
 
