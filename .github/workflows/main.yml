@@ -20,11 +20,7 @@ jobs:
           accountId: ${{ secrets.CF_ACCOUNT_ID }}
           projectName: gentle-rain-da08
           directory: gentle-rain-da08
-          # Optional: Enable this if you want to have GitHub Deployments triggered
-          # Optional: Change the working directory
-          # workingDirectory: gentle-rain-da08
-          # Optional: Change the Wrangler version, allows you to point to a specific version or a tag such as `beta`
-          # wranglerVersion: '3'
+          command: deploy gentle-rain-da08/src/index.js  # Specify the entry point for Gentle Rain Worker
 
       - name: Publish Shrill Poetry Worker
         uses: cloudflare/wrangler-action@v3
@@ -33,8 +29,4 @@ jobs:
           accountId: ${{ secrets.CF_ACCOUNT_ID }}
           projectName: shrill-poetry-b0cc
           directory: shrill-poetry-b0cc
-          # Optional: Enable this if you want to have GitHub Deployments triggered
-          # Optional: Change the working directory
-          # workingDirectory: shrill-poetry-b0cc
-          # Optional: Change the Wrangler version, allows you to point to a specific version or a tag such as `beta`
-          # wranglerVersion: '3'
+          command: deploy shrill-poetry-b0cc/src/index.js  # Specify the entry point for Shrill Poetry Worker
