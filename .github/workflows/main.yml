@@ -16,7 +16,7 @@ jobs:
       - name: Publish Gentle Rain Worker
         uses: cloudflare/wrangler-action@v3
         with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          apiToken: ${{ secrets.CF_API_TOKEN }}
           accountId: ${{ secrets.CF_ACCOUNT_ID }}
           projectName: gentle-rain-da08
           directory: gentle-rain-da08
@@ -25,7 +25,7 @@ jobs:
       - name: Publish Shrill Poetry Worker
         uses: cloudflare/wrangler-action@v3
         with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          apiToken: ${{ secrets.CF_API_TOKEN }}
           accountId: ${{ secrets.CF_ACCOUNT_ID }}
           projectName: shrill-poetry-b0cc
           directory: shrill-poetry-b0cc
