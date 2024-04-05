@@ -1,42 +1,40 @@
-name: Deploy Worker
-
-on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-  repository_dispatch:
-
-permissions:
-  contents: read
+on: [push]
 
 jobs:
-  deploy:
-    name: 'Deploy Worker'
+  publish:
     runs-on: ubuntu-latest
-    # environment: production
-
-    # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
-    defaults:
-      run:
-        shell: bash
-
+    permissions:
+      contents: read
+      deployments: write
+    name: Publish to Cloudflare Workers
     steps:
-      # Checkout the repository to the GitHub Actions runner
       - name: Checkout
         uses: actions/checkout@v3
 
-      # Install Wrangler CLI
-      - name: Install Wrangler
-        run: npm install -g @cloudflare/wrangler
+      # Run a build step here if your project requires
 
-      # Build & Deploy Gentle Rain Worker
-      - name: Build & Deploy Gentle Rain Worker
-        run: |
-          cd gentle-rain-da08
-          wrangler publish --api-token ${{ secrets.CF_API_TOKEN }} --env production
+      - name: Publish Gentle Rain Worker
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CF_ACCOUNT_ID }}
+          projectName: gentle-rain-da08
+          directory: gentle-rain-da08
+          # Optional: Enable this if you want to have GitHub Deployments triggered
+          # Optional: Change the working directory
+          # workingDirectory: gentle-rain-da08
+          # Optional: Change the Wrangler version, allows you to point to a specific version or a tag such as `beta`
+          # wranglerVersion: '3'
 
-      # Build & Deploy Shrill Poetry Worker
-      - name: Build & Deploy Shrill Poetry Worker
-        run: |
-          cd shrill-poetry-b0cc
-          wrangler publish --api-token ${{ secrets.CF_API_TOKEN }} --env production
+      - name: Publish Shrill Poetry Worker
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CF_ACCOUNT_ID }}
+          projectName: shrill-poetry-b0cc
+          directory: shrill-poetry-b0cc
+          # Optional: Enable this if you want to have GitHub Deployments triggered
+          # Optional: Change the working directory
+          # workingDirectory: shrill-poetry-b0cc
+          # Optional: Change the Wrangler version, allows you to point to a specific version or a tag such as `beta`
+          # wranglerVersion: '3'
